@@ -27,7 +27,7 @@ const Search: React.FC = () => {
   };
 
   const onCnangeHandler = (data: string) => {
-    data && debouncedDispatchSearch(data, 500)();
+    debouncedDispatchSearch(data, 500)();
     setInputValue(data);
   };
   const onRefreshClickHandler = () => {

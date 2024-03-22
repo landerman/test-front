@@ -4,6 +4,7 @@ import { User } from "../../types/user";
 import { StateUsers } from "../../store/slices/userList.slice";
 import { setActiveCard, deleteUser } from "../../store/slices/userList.slice";
 import styles from "./userCard.module.scss";
+import delete_icon from "../../assets/delete.svg";
 
 const UserCard: React.FC<{ data: User }> = ({ data }: { data: User }) => {
   const { name, email, phone, adress, birthday, picture, id } = data;
@@ -19,7 +20,6 @@ const UserCard: React.FC<{ data: User }> = ({ data }: { data: User }) => {
   const deleteHandler = () => {
     isCurrentActive && dispatch(deleteUser(id));
   };
-  const delete_icon = <img src="src/assets/delete.svg" />;
 
   return (
     <div
@@ -54,7 +54,7 @@ const UserCard: React.FC<{ data: User }> = ({ data }: { data: User }) => {
       </div>
       {isCurrentActive && (
         <button className={styles.delete} onClick={deleteHandler}>
-          {delete_icon}
+          <img src={delete_icon} />
         </button>
       )}
     </div>

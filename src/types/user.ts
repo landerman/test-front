@@ -32,6 +32,11 @@ export type User = {
   age: number;
   picture: string;
   id: string;
+  dob: {
+    day: string;
+    month: string;
+    year: string;
+  }
 };
 
 export type UsersList = User[];

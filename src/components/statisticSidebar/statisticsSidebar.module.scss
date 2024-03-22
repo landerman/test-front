@@ -1,7 +1,9 @@
 .wrapper {
   width: 332px;
   min-width: 332px;
-  max-height: 884px;
+  height: 884px; 
+  max-height: calc(100vh - 64px - 32px - 52px);
+  min-height: 442px;
   background: #1e2027;
   border-radius: 16px;
   padding: 24px;

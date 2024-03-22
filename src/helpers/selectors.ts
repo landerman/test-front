@@ -14,44 +14,111 @@ export const getAge = (date: string): number => {
   return age;
 };
 
-export const formatDate = (dateString: string): string => {
-  const date = new Date(dateString);
-  return date.toLocaleDateString("en-US", {
-    day: "2-digit",
-    month: "long",
-    year: "numeric",
-  });
+export const getDay = (date: Date): string => {
+  return `${date.getDate()}`;
+};
+
+export const getMonth = (date: Date): string => {
+  return date.toLocaleDateString("en-US", { month: "long" });
+};
+
+export const getYear = (date: Date): string => {
+  return `${date.getFullYear()}`;
 };
 
 export const getFullName = (currentUser: FetchedUser): string =>
   `${currentUser.name.first} ${currentUser.name.last}`;
 
 export const getUsersListState = (users: FetchedUsersList): UsersList => {
-  return users.map((currentUser: FetchedUser) => ({
+  return users.map((currentUser: FetchedUser) => {
+    const dobDate = new Date(currentUser.dob.date);
+    const day = getDay(dobDate);
+    const month = getMonth(dobDate);
+    const year = getYear(dobDate);
+    return {
     gender: currentUser.gender,
     name: getFullName(currentUser),
     email: currentUser.email,
     phone: currentUser.phone,
-    birthday: formatDate(currentUser.dob.date),
+    birthday: `${month} ${day}, ${year}`,
+    dob:{
+      day: day,
+      month: month,
+      year: year,
+    },
     age: getAge(currentUser.dob.date),
     adress: `${currentUser.location.city}, ${currentUser.location.state}, ${currentUser.location.country}`,
     picture: currentUser.picture.medium,
     id: currentUser.login.uuid,
-  }));
+    }
+
+  });
 };
 
+// поиск по дате в любой последовательности параметров [день | месяц | год], 
+// включая поиск по одному, двум или трем параметрам из трех:
+const searchByDate = (searchTerms: string[], searchStringCount: number, day: string, month: string, year: string) =>{
+  let result = false;
+  let searchDay = ''
+  let searchMonth = ''  
+  let searchYear = ''
+
+  searchTerms.forEach((term: string )=> {
+      if (!isNaN(Number(term))){
+        if(searchDay){
+          searchYear = term
+        }else{
+          searchDay = term
+        }
+      }else{
+        searchMonth = term
+      }
+    });
+
+    const isDayInclude = !!searchDay && (day.includes(searchDay)|| year.includes(searchDay)) ;
+    const isMonthInclude = !!searchMonth && month.toLowerCase().includes(searchMonth);
+    const isYearInclude = !!searchYear && (year.includes(searchYear) || day.includes(searchYear));
+
+    switch (searchStringCount) {
+      case 3: 
+      result = isDayInclude && isMonthInclude && isYearInclude;
+      break
+      case 2: 
+      result = (isDayInclude && isMonthInclude) || (isMonthInclude && isYearInclude) || (isDayInclude && isYearInclude)
+      break
+      case 1: 
+      console.log(searchMonth, month)
+      result = isDayInclude || isMonthInclude || isYearInclude;
+    }
+
+  return result
+}
+
+
 export const searchUsers = (users: UsersList, query: string): UsersList => {
-  const normalizedQuery = query.toLowerCase();
-  const sanitizedQuery = normalizedQuery.replace(/[^a-zA-Z0-9]/g, "");
+  // строка запроса, без лишних пробелов
+  const normalizedQuery = query.replace(/\s+/g, ' ').trim().toLowerCase();
+  // строка запроса, включающая только цифры, буквы (на любом языке) и пробелы между ними
+  const sanitizedQuery = normalizedQuery.replace(/[^\p{L}\p{N}\s]/gu, '');
+  //строка запроса, включающая только цифры и буквы:
+  const sanitizedQueryPhone = normalizedQuery.replace(/[^\p{L}\p{N}]/gu, '');
+
+  const searchTerms = sanitizedQuery.split(' ');
+  const searchTermsCount = searchTerms.length;
+
+  if(searchTermsCount === 0){
+    return users
+  }
 
   return users.filter((currentUser: User) => {
-    const { name, adress, birthday } = currentUser;
+    const { name, adress, dob: {day, month, year} } = currentUser;
+
     return (
-      name.includes(normalizedQuery) ||
+      name.toLowerCase().includes(sanitizedQuery) ||
       currentUser.email.toLowerCase().includes(normalizedQuery) ||
-      currentUser.phone.replace(/[^a-zA-Z0-9]/g, "").includes(sanitizedQuery) ||
-      birthday.includes(normalizedQuery) ||
-      adress.toLowerCase().includes(normalizedQuery)
+      currentUser.phone.replace(/[^\p{L}\p{N}]/gu, '').toLowerCase().includes(sanitizedQueryPhone) ||
+      adress.toLowerCase().includes(normalizedQuery) ||
+      searchByDate(searchTerms,searchTermsCount, day, month, year)
     );
   });
 };
