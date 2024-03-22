@@ -1,0 +1,25 @@
+.usersList {
+  display: flex;
+  flex-wrap: wrap;
+  overflow-y: scroll;
+  max-height: 100vh;
+  padding: 4px 0 0 0;
+  position: relative;
+  margin-right: 5px;
+
+  &::-webkit-scrollbar {
+    width: 4px;
+    position: absolute;
+    left: -200px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #7a7a7a;
+    border-radius: 100px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #272930;
+    border-radius: 100px;
+  }
+}

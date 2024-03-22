@@ -1,0 +1,97 @@
+.user {
+  display: flex;
+  max-width: 332px;
+  max-height: 196px;
+  margin: 0 16px 16px 0;
+  padding: 20px;
+  flex-wrap: wrap;
+  background: #1a1c23;
+  color: #dcd8d3;
+  border-radius: 16px;
+  position: relative;
+  overflow: hidden;
+  .user_header {
+    display: flex;
+    flex-direction: column;
+    max-height: 56px;
+    flex-wrap: wrap;
+    .user_photo {
+      width: 56px;
+      height: 56px;
+      border-radius: 100%;
+      margin: 0 16px 0 0;
+    }
+    .user_title {
+      display: flex;
+      flex-direction: column;
+      .user_name {
+        line-height: 24px;
+        font-size: 20px;
+        margin: 0 0 8px 0;
+        font-weight: 600;
+      }
+    }
+  }
+  .user_details_wrapper {
+    display: flex;
+    flex-direction: column;
+    margin: 4px 0 0 0;
+
+    .user_details {
+      margin: 12px 0 0 0;
+      display: flex;
+      .user_field_data {
+        margin: 0 0 0 16px;
+      }
+    }
+  }
+  .user_field {
+    display: block;
+    max-width: fit-content;
+    min-width: 56px;
+    color: #8c8988;
+    line-height: 20px;
+    font-size: 12px;
+  }
+  .user_field_data {
+    max-width: 219px;
+    line-height: 20px;
+    font-size: 14px;
+    color: #dcd8d3;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+.user_active {
+  background: #1e2027;
+  border: 1px solid #cf7b5a;
+  .user_name {
+    color: #cf7b5a;
+  }
+}
+.delete {
+  position: absolute;
+  top: -46px;
+  right: -44px;
+  width: 88px;
+  height: 92px;
+  border-radius: 16px;
+  border: 1px solid #4f2631;
+  background: #23252c;
+
+  &:hover,
+  &:focus,
+  &:focus-visible {
+    border: 1px solid #4f2631;
+  }
+
+  img {
+    width: 24px;
+    height: 24px;
+    position: absolute;
+    bottom: 9px;
+    left: 9px;
+    opacity: 1;
+  }
+}

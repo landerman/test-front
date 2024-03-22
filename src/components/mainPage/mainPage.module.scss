@@ -1,0 +1,10 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  margin: 32px;
+
+  .mainInfo {
+    display: flex;
+    margin: 32px 0 0 0;
+  }
+}

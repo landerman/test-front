@@ -1,0 +1,46 @@
+.wrapper {
+  width: 332px;
+  min-width: 332px;
+  max-height: 884px;
+  background: #1e2027;
+  border-radius: 16px;
+  padding: 24px;
+  color: #dcd8d3;
+
+  .title {
+    font-size: 20px;
+    line-height: 24px;
+    font-weight: 600;
+  }
+  .ageGroups_title,
+  .genders_title {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 16px;
+    line-height: 20px;
+    font-weight: 600;
+  }
+  .ageGroups {
+    border-top: 1px solid #303238;
+    border-bottom: 1px solid #303238;
+    padding: 24px 0 24px 0;
+    margin: 24px 0;
+  }
+  .genders {
+    display: flex;
+    flex-direction: column;
+  }
+  .stat_field {
+    display: inline-block;
+    width: 47px;
+    color: #8c8988;
+    font-size: 12px;
+    line-height: 20px;
+    margin: 12px 0 0 0;
+  }
+  .stat_field_data {
+    margin-left: 16px;
+    font-size: 14px;
+    line-height: 20px;
+  }
+}
